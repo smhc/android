@@ -16,8 +16,8 @@ import kotlinx.serialization.json.encodeToJsonElement
  * cannot give each command its own subtype (all would need the same `@SerialName("command")`).
  *
  * Instead, this single private class handles serialization, and each command is exposed as a
- * top-level factory: [NavigateTo] uses `operator fun invoke` for constructor-like syntax,
- * and [ShowSidebar] is a pre-built instance. Call sites read naturally:
+ * top-level factory: [NavigateToMessage] uses `operator fun invoke` for constructor-like syntax,
+ * and [ShowSidebarMessage] is a pre-built instance. Call sites read naturally:
  * ```
  * send(NavigateTo(path = "/dashboard", replace = true))
  * send(ShowSidebar)
@@ -42,7 +42,7 @@ private data class CommandMessage(
  *
  * @see CommandMessage
  */
-object NavigateTo {
+object NavigateToMessage {
     operator fun invoke(path: String, replace: Boolean = false): OutgoingExternalBusMessage = CommandMessage(
         command = "navigate",
         payload = frontendExternalBusJson.encodeToJsonElement(
@@ -62,4 +62,4 @@ object NavigateTo {
  *
  * @see CommandMessage
  */
-val ShowSidebar: OutgoingExternalBusMessage = CommandMessage(command = "sidebar/show")
+val ShowSidebarMessage: OutgoingExternalBusMessage = CommandMessage(command = "sidebar/show")
